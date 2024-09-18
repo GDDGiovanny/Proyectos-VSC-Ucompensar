@@ -1,0 +1,165 @@
+
+package probare;
+
+import java.util.Scanner;
+
+
+public class probar {
+    
+  static Scanner in = new Scanner(System.in);
+    static String nombres[];
+    static int calificacion[][];
+    static int numEstudiante;
+    static int numAsignatura;
+
+    private static void agregarEstudiantes() {
+        System.out.println("Ingrese el nombre del estudiante");
+        String nombreE = in.nextLine();
+
+        for (int i = 0; i < numEstudiante; i++) {
+            if (nombres[i] == null) {
+                nombres[i] = nombreE;
+                System.out.println("Ingrese las calificaciones" + nombreE);
+                for (int j = 0; j < numAsignatura; j++) {
+                    System.out.println("Asignatura #" + (j + 1));
+                    calificacion[i][j] = in.nextInt();
+
+                }
+                in.nextLine();
+                return;
+            }
+        }
+        System.out.println("Los estudiantes y sus respectivas calificaciones fueron ingresados correctamente");
+        System.out.println("La lista de estuciantes se ha completado satisfacoriamente");
+
+    }
+
+    private static void ordenarCalificacion() {
+        for (int i = 0; i < numEstudiante; i++) {
+            for (int h = 1; h < numAsignatura; h++) {
+                int temp = calificacion[i][h];
+                int j = h - 1;
+                while (j >= 0 && calificacion[i][h] > temp) {
+                    calificacion[i][j + 1] = calificacion[i][j];
+                    j--;
+                }
+                calificacion[i][j + 1] = temp;
+            }
+        }
+        System.out.println("Calificaciones ordenadas");
+    }
+
+    private static void buscarEstudiante() {
+        System.out.println("Ingrese el nombre del estudiante a buscar: ");
+        String nombreE = in.nextLine();
+        for (int i = 0; i < numEstudiante; i++) {
+            if (nombreE.equals(nombres[i])) {
+                System.out.println("calificacion de " + nombres[i] + ":");
+                for (int j = 0; j < numAsignatura; j++) {
+                    System.out.println("Asignatura #" + (j + 1) + ":" + calificacion[i][j]);
+                }
+                return;
+
+            }
+
+        }
+
+    }
+
+    private static void eliminarEstudiante() {
+        System.out.println("Ingrese el nombre del estudiante que desee eliminar: ");
+        String nombreE = in.nextLine();
+        for (int i = 0; i < numEstudiante; i++) {
+            if (nombreE.equals(nombres[i])) {
+                nombres[i] = null;
+                for (int j = 0; j < numAsignatura; j++) {
+                    calificacion[i][j] = 0;
+                }
+                System.out.println("Estudiante" + nombreE + "ha sido eliminado correctamente");
+                return;
+
+            } else {
+
+                System.out.println("No se encontro el estudiante, vuelva a intentarlo");
+            }
+
+        }
+
+    }
+
+    private static void mostrarClificaciones() {
+        System.out.println(nombres[1]);
+        
+        
+        System.out.println("\nTabla de calificaciones: ");
+        System.out.printf("%-20s", "Nombre");
+        for (int j = 0; j < numAsignatura; j++) {
+            System.out.printf("Asignatura %d ", (j + 1));
+        }
+        System.out.println();
+        for (int i = 0; i < numEstudiante; i++) {
+            if (nombres[i] != null) {
+                System.out.printf("%-20s", nombres[i]);
+                for (int j = 0; j < numAsignatura; j++) {
+                    System.out.printf("%d            ", calificacion[i][j]);
+                }
+                System.out.println();
+
+            }
+
+        }
+    }
+
+    private static void mostrarMenu() {
+        System.out.println("\nMENU");
+        System.out.println("1.Agregar Estudiante");
+        System.out.println("2.Buscar Estudiante");
+        System.out.println("3.Eliminar Estudiante");
+        System.out.println("4.Ordenar Calificaciones");
+        System.out.println("5.Mostrar Tabla");
+        System.out.println("6.salir");
+        System.out.println("Elige una opcion");
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Ingrese el numero de estudiantes: ");
+        numEstudiante = in.nextInt();
+        System.out.println("Ingrese el numero de asignatura: ");
+        numAsignatura = in.nextInt();
+        in.nextLine();
+        nombres = new String[numEstudiante];
+        calificacion = new int[numEstudiante][numAsignatura];
+
+        while (true) {
+            mostrarMenu();
+            int opcion = in.nextInt();
+            in.nextLine();
+            switch (opcion) {
+                case 1:
+                    agregarEstudiantes();
+                    break;
+                case 2:
+                    buscarEstudiante();
+                    break;
+                case 3:
+                    eliminarEstudiante();
+                    break;
+                case 4:
+                    ordenarCalificacion();
+                    break;
+                case 5:
+                    mostrarClificaciones();
+                    break;
+                case 6:
+                    System.out.println("Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("La opcion que digitaste no es valida , vuelve a intentarlo");
+
+            }
+
+        }
+
+    }
+}
